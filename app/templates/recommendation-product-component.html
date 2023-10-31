@@ -4,18 +4,22 @@
 
 
 
+{% if current_user.is_authenticated %}
+
+
 
 
 <div style="padding: 100px 100px; margin: 0px 10px; border-radius: 5px;"
-    class="rounded-lg border border-gray-100 bg-blue-50">
+    class="rounded-lg border border-gray-100 bg-blue-50" id="recommendation-parent-container">
     <h1 class="text-5xl font-extrabold dark:text-white">Senin<small
             class="ml-2 font-semibold text-gray-500 dark:text-gray-400">için seçtiklerimiz</small></h1>
 
 
     <div class="flex p-6 text-blue-900 hover:text-blue-700 font-bold">
-        <a href="" style="right: 0; margin-left: auto;">Tümü</a>
+        <a href="{% url 'recommendation_product' %}" style="right: 0; margin-left: auto;">Tümü</a>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 content-around" id="recommendation-product-container">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 content-around"
+        id="recommendation-product-container">
 
     </div>
 
@@ -27,41 +31,8 @@
 
 
     document.addEventListener("DOMContentLoaded", function () {
-        // var category = "{{ category }}";
 
-        // if (category == "None") {
-        //     var url = "api/get-product-random/";
-        // } else {
-        //     var url = `api/get-product/${category}/`;
-        // }
-
-        // fetch(url)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error(`HTTP error! Status: ${response.status}`);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         // Verileri işlemek için data değişkenini kullanabilirsiniz
-        //         console.log(data);
-        //         createBestProductContainer(data.products);
-
-        //     })
-        //     .catch(error => {
-        //         console.error("Hata oluştu:", error);
-        //     });
-
-
-
-
-
-
-
-
-
-
-        fetch('api/get-product-recommendation/')
+        fetch('/api/get-product-recommendation/')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -71,7 +42,13 @@
             .then(data => {
                 // Verileri işlemek için data değişkenini kullanabilirsiniz
                 console.log(data);
-                createRecommendationProductContainer(data.recommendation_data);
+
+                if (Object.keys(data.recommendation_data).length > 0) {
+                    createRecommendationProductContainer(data.recommendation_data);
+
+                } else {
+                    document.getElementById('recommendation-parent-container').remove();
+                }
 
             })
             .catch(error => {
@@ -93,9 +70,9 @@
 
         var container = document.getElementById('recommendation-product-container');
 
-        if (Object.keys(data).length > 0 ) {
+        if (Object.keys(data).length > 0) {
             var size = 4;
-        } else  {
+        } else {
             var size = 0;
         }
 
@@ -187,3 +164,7 @@
     }
 
 </script>
+
+
+
+{% endif %}

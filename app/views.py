@@ -75,6 +75,47 @@ def product_details(request):
 
 
 
+
+
+
+
+
+
+
+def recommendation_view(request):
+    current_user = request.user
+
+    category = request.GET.get('category')
+
+
+    
+    return render(request, 'recommendation-product.html', {'current_user': current_user, "category": category})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def login_view(request):
 
     if request.user.is_authenticated:

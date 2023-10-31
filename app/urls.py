@@ -5,6 +5,7 @@ urlpatterns = [
     # Pages
     path("", views.index_view, name="index"),
     path("product-details/", views.product_details, name="product_details"),
+    path("recommendation-details/", views.recommendation_view, name="recommendation_product"),
 
 
     # Auth

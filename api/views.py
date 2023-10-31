@@ -157,9 +157,11 @@ def get_recommendation_data(request):
     user_product_viewing = UserProductViewing.objects.filter(user=request.user.id)
     chosen_products = list()
     for product in user_product_viewing:
-        chosen_products.append(df["product_name"][product.product_id])
+        if df["product_name"][product.product_id] not in chosen_products:
+            chosen_products.append(df["product_name"][product.product_id])
  
-    
+    print("#"*100)
+    print(chosen_products)
     recommendation_data = get_recommendation_system_value(df, chosen_products)
    
 
